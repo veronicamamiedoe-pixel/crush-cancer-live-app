@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'placeholder' })
 
 const SYSTEM_PROMPTS: Record<string, string> = {
   general: `You are a warm, compassionate AI health companion for Crush Cancer & LIVE — a professional cancer care platform. You support cancer patients through their healing journey.
