@@ -516,5 +516,10 @@ function MedCard({ med, index, todayLogs, expanded, onToggle, onTaken, onMissed,
               </div>
             </div>
           </motion.div>
-        )
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )@echo off
+cd C:\Users\Owner\Projects\crush-cancer-live
+npm run dev
 }
