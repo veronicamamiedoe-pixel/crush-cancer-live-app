@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Plus, Pill, X, ChevronDown, ChevronUp,
-  Clock, Calendar, AlertTriangle, Archive, RotateCcw
+  Clock, Calendar, AlertTriangle, Archive, RotateCcw, Check
 } from 'lucide-react'
 import { AppShell } from '@/components/shared/AppShell'
 import { createClient } from '@/lib/supabase/client'
