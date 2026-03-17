@@ -519,3 +519,5 @@ function MedCard({ med, index, todayLogs, expanded, onToggle, onTaken, onMissed,
         )}
       </AnimatePresence>
     </motion.div>
+  )
+ }
