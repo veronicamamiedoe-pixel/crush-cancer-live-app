@@ -160,7 +160,7 @@ export default function PrepareAppointmentPage() {
                   <div key={key} className="mt-3">
                     <div className="flex justify-between text-xs font-bold text-gray-600 mb-1">
                       <span className="capitalize">{key.replace('_level', '').replace('_', ' ')}</span>
-                      <span className="text-pink-500">{avg as number}/10 avg</span>
+                      <span className="text-pink-500">{avg as unknown as number}/10 avg</span>
                     </div>
                     <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div className="h-full bg-gradient-to-r from-pink-400 to-teal-400 rounded-full"
