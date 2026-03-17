@@ -30,7 +30,7 @@ const MOOD_OPTIONS = [
 const blankEntry = {
   reflection: '', gratitude_1: '', gratitude_2: '', gratitude_3: '',
   prayer: '', affirmation: '', small_win: '', title: '',
-  mood: 3, energy_level: 5, faith_level: 5, is_private: true,
+  mood: 3 as any, energy_level: 5 as any, faith_level: 5 as any, is_private: true,
 }
 
 export default function JournalPage() {
@@ -67,7 +67,7 @@ export default function JournalPage() {
     const { data } = await supabase.from('journal_entries')
       .select('id,entry_date,title,mood,small_win').eq('user_id', user.id)
       .order('entry_date', { ascending: false }).limit(7)
-    setRecentEntries(data || [])
+    setRecentEntries((data || []) as any)
   }
 
   const saveEntry = async () => {
@@ -153,7 +153,7 @@ export default function JournalPage() {
                 <label className="ccl-label">Mood</label>
                 <div className="flex gap-3 mt-2">
                   {MOOD_OPTIONS.map(m => (
-                    <button key={m.value} onClick={() => setEntry(e => ({ ...e, mood: m.value }))}
+                    <button key={m.value} onClick={() => setEntry(e => ({ ...e, mood: m.value as any }))}
                       className={`flex flex-col items-center gap-1 p-3 rounded-2xl border-2 transition-all ${
                         entry.mood === m.value ? 'border-pink-500 bg-pink-50' : 'border-gray-200 hover:border-pink-200'
                       }`}>
