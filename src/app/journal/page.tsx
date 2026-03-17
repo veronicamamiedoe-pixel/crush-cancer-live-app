@@ -168,13 +168,13 @@ export default function JournalPage() {
                 <div>
                   <label className="ccl-label">Energy — {entry.energy_level}/10</label>
                   <input type="range" min="1" max="10" value={entry.energy_level || 5}
-                    onChange={e => setEntry(f => ({ ...f, energy_level: Number(e.target.value) }))}
+                    onChange={e => setEntry(f => ({ ...f, energy_level: Number(e.target.value) as any }))}
                     className="w-full accent-gold-500 mt-1" />
                 </div>
                 <div>
                   <label className="ccl-label">Faith — {entry.faith_level}/10</label>
                   <input type="range" min="1" max="10" value={entry.faith_level || 5}
-                    onChange={e => setEntry(f => ({ ...f, faith_level: Number(e.target.value) }))}
+                    onChange={e => setEntry(f => ({ ...f, faith_level: Number(e.target.value) as any }))}
                     className="w-full accent-teal-500 mt-1" />
                 </div>
               </div>
