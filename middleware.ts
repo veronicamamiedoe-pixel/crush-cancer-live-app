@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 
-const PUBLIC_ROUTES  = ['/', '/auth/login', '/auth/signup', '/auth/reset-password', '/auth/callback']
+const PUBLIC_ROUTES  = ['/', '/auth/login', '/auth/signup', '/auth/reset-password', '/auth/callback', '/auth/confirm']
 const PREMIUM_ROUTES = ['/ai-assistant']
 const SUPPORT_ROUTES = ['/documents', '/library']
 
