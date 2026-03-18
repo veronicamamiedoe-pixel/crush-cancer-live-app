@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import { createClient } from '@/lib/supabase/server'
 import type { SymptomLog, TreatmentSession, Medication } from '@/types'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "placeholder" })
 
 // ----------------------------------------------------------------
 // DISCLAIMER — enforced in every analysis response
