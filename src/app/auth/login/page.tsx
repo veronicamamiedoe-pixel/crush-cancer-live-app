@@ -26,8 +26,7 @@ export default function LoginPage() {
       return
     }
     toast.success('Welcome back! 💛')
-    router.refresh()
-    router.push('/dashboard')
+    window.location.href = '/dashboard'
   }
 
   return (

@@ -40,8 +40,8 @@ export default function SignupPage() {
       setLoading(false)
       return
     }
-    setDone(true)
     setLoading(false)
+    window.location.href = '/dashboard'
   }
 
   if (done) {
