@@ -24,24 +24,31 @@ export default function SignupPage() {
     if (password !== confirm) { toast.error('Passwords do not match'); return }
     if (password.length < 8)  { toast.error('Password must be at least 8 characters'); return }
     setLoading(true)
-
-    const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName, role },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-
-    if (error) {
-      toast.error(error.message)
+    try {
+      const supabase = createClient()
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName, role },
+        },
+      })
+      if (error) {
+        toast.error(error.message)
+        setLoading(false)
+        return
+      }
+      if (data?.session) {
+        toast.success('Welcome to Crush Cancer & LIVE! 💛')
+        window.location.replace('/dashboard')
+      } else {
+        toast.success('Account created! Please check your email to confirm, then log in.')
+        setLoading(false)
+      }
+    } catch (err) {
+      toast.error('Something went wrong. Please try again.')
       setLoading(false)
-      return
     }
-    setLoading(false)
-    window.location.href = '/dashboard'
   }
 
   if (done) {

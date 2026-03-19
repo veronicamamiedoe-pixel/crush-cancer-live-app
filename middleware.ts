@@ -1,17 +1,17 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 
-const PUBLIC_ROUTES = [
-  '/',
-  '/auth/login',
-  '/auth/signup',
-  '/auth/reset-password',
-  '/auth/callback',
-  '/auth/confirm',
-]
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  // Skip middleware for static files and API routes
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.includes('.')
+  ) {
+    return NextResponse.next()
+  }
 
   let response = NextResponse.next({
     request: { headers: request.headers },
@@ -27,16 +27,12 @@ export async function middleware(request: NextRequest) {
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({
-            request: { headers: request.headers },
-          })
+          response = NextResponse.next({ request: { headers: request.headers } })
           response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({
-            request: { headers: request.headers },
-          })
+          response = NextResponse.next({ request: { headers: request.headers } })
           response.cookies.set({ name, value: '', ...options })
         },
       },
@@ -45,22 +41,20 @@ export async function middleware(request: NextRequest) {
 
   const { data: { session } } = await supabase.auth.getSession()
 
-  if (PUBLIC_ROUTES.some(r => pathname === r || pathname.startsWith(r + '/'))) {
-    if (session && pathname.startsWith('/auth')) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-    return response
+  const isAuthPage = pathname.startsWith('/auth')
+  const isPublic   = pathname === '/' || isAuthPage
+
+  if (!session && !isPublic) {
+    return NextResponse.redirect(new URL('/auth/login', request.url))
   }
 
-  if (!session) {
-    return NextResponse.redirect(new URL('/auth/login', request.url))
+  if (session && isAuthPage) {
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   return response
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|logo.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|logo.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
 }

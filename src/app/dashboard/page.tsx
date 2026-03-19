@@ -41,53 +41,61 @@ export default function DashboardPage() {
   useEffect(() => { load() }, [])
 
   const load = async () => {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    try {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { setLoading(false); return }
 
-    const today = new Date().toISOString().split('T')[0]
-    const todayStart = new Date(); todayStart.setHours(0,0,0,0)
+      const today = new Date().toISOString().split('T')[0]
+      const todayStart = new Date(); todayStart.setHours(0,0,0,0)
 
-    const [
-      { data: user_ },
-      { data: appts },
-      { data: meds },
-      { data: medLogs },
-      { data: symptom },
-      { data: overdue },
-      { data: todayR },
-      { data: visits },
-      { data: actions },
-      { data: patterns },
-      { data: txSessions },
-      { data: audioSched },
-    ] = await Promise.all([
-      supabase.from('users').select('*').eq('id', user.id).single(),
-      supabase.from('appointments').select('*').eq('user_id', user.id).gte('date', today).order('date').limit(3),
-      supabase.from('medications').select('*').eq('user_id', user.id).eq('active', true),
-      supabase.from('medication_logs').select('medication_id,taken').eq('user_id', user.id).gte('taken_at', todayStart.toISOString()),
-      supabase.from('symptom_logs').select('*').eq('user_id', user.id).order('logged_at', { ascending: false }).limit(1).single(),
-      supabase.from('reminders').select('*').eq('user_id', user.id).eq('is_active', true).eq('completed', false).lt('due_at', new Date().toISOString()).limit(5),
-      supabase.from('reminders').select('*').eq('user_id', user.id).eq('is_active', true).eq('completed', false).gte('due_at', todayStart.toISOString()).limit(5),
-      supabase.from('doctor_visits').select('*').eq('user_id', user.id).order('visit_date', { ascending: false }).limit(2),
-      supabase.from('visit_action_items').select('*').eq('user_id', user.id).eq('completed', false).limit(4),
-      supabase.from('symptom_patterns').select('*').eq('user_id', user.id).eq('dismissed', false).limit(3),
-      supabase.from('treatment_sessions').select('id,completed,total_sessions').eq('user_id', user.id).order('date', { ascending: false }).limit(20),
-      supabase.from('audio_schedules').select('*, audio:audio_library(title,category)').eq('user_id', user.id).eq('is_active', true),
-    ])
+      const results = await Promise.allSettled([
+        supabase.from('profiles').select('*').eq('id', user.id).single(),
+        supabase.from('appointments').select('*').eq('user_id', user.id).gte('date', today).order('date').limit(3),
+        supabase.from('medications').select('*').eq('user_id', user.id).eq('active', true),
+        supabase.from('medication_logs').select('medication_id,taken').eq('user_id', user.id).gte('taken_at', todayStart.toISOString()),
+        supabase.from('symptom_logs').select('*').eq('user_id', user.id).order('logged_at', { ascending: false }).limit(1).single(),
+        supabase.from('reminders').select('*').eq('user_id', user.id).eq('is_active', true).eq('completed', false).lt('due_at', new Date().toISOString()).limit(5),
+        supabase.from('reminders').select('*').eq('user_id', user.id).eq('is_active', true).eq('completed', false).gte('due_at', todayStart.toISOString()).limit(5),
+        supabase.from('doctor_visits').select('*').eq('user_id', user.id).order('visit_date', { ascending: false }).limit(2),
+        supabase.from('visit_action_items').select('*').eq('user_id', user.id).eq('completed', false).limit(4),
+        supabase.from('symptom_patterns').select('*').eq('user_id', user.id).eq('dismissed', false).limit(3),
+        supabase.from('treatment_sessions').select('id,completed,total_sessions').eq('user_id', user.id).order('date', { ascending: false }).limit(20),
+        supabase.from('audio_schedules').select('*, audio:audio_library(title,category)').eq('user_id', user.id).eq('is_active', true),
+      ])
 
-    const takenSet = new Set((medLogs || []).filter((l:any) => l.taken).map((l:any) => l.medication_id))
-    const completedTx = (txSessions || []).filter((t:any) => t.completed).length
-    const totalTx     = txSessions?.[0]?.total_sessions || completedTx
+      const get = (i: number) => results[i].status === 'fulfilled' ? (results[i] as any).value?.data : null
 
-    setD({
-      user: user_, appts: appts || [], meds: meds || [],
-      takenMeds: (meds || []).filter((m:any) => takenSet.has(m.id)).length,
-      symptom, overdue: overdue || [], todayR: todayR || [],
-      visits: visits || [], actions: actions || [], patterns: patterns || [],
-      tx: { completed: completedTx, total: totalTx }, audioSched: audioSched || [],
-    })
-    setLoading(false)
+      const user_     = get(0)
+      const appts     = get(1)
+      const meds      = get(2)
+      const medLogs   = get(3)
+      const symptom   = get(4)
+      const overdue   = get(5)
+      const todayR    = get(6)
+      const visits    = get(7)
+      const actions   = get(8)
+      const patterns  = get(9)
+      const txSessions= get(10)
+      const audioSched= get(11)
+
+      const takenSet = new Set((medLogs || []).filter((l:any) => l.taken).map((l:any) => l.medication_id))
+      const completedTx = (txSessions || []).filter((t:any) => t.completed).length
+      const totalTx     = txSessions?.[0]?.total_sessions || completedTx
+
+      setD({
+        user: user_ || { id: user.id, full_name: user.user_metadata?.full_name || user.email },
+        appts: appts || [], meds: meds || [],
+        takenMeds: (meds || []).filter((m:any) => takenSet.has(m.id)).length,
+        symptom, overdue: overdue || [], todayR: todayR || [],
+        visits: visits || [], actions: actions || [], patterns: patterns || [],
+        tx: { completed: completedTx, total: totalTx }, audioSched: audioSched || [],
+      })
+    } catch (err) {
+      console.error('Dashboard load error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const dismissReminder = async (id: string) => {

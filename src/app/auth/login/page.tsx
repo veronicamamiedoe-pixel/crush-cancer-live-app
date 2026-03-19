@@ -18,15 +18,25 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      toast.error(error.message)
+    try {
+      const supabase = createClient()
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) {
+        toast.error(error.message)
+        setLoading(false)
+        return
+      }
+      if (data?.session) {
+        toast.success('Welcome back! 💛')
+        window.location.replace('/dashboard')
+      } else {
+        toast.error('Login failed. Please check your email for a confirmation link first.')
+        setLoading(false)
+      }
+    } catch (err) {
+      toast.error('Something went wrong. Please try again.')
       setLoading(false)
-      return
     }
-    toast.success('Welcome back! 💛')
-    window.location.href = '/dashboard'
   }
 
   return (
