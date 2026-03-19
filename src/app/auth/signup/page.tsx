@@ -53,7 +53,7 @@ export default function SignupPage() {
           className="bg-white rounded-3xl shadow-card p-10 max-w-md w-full text-center border border-pink-100"
         >
           <div className="text-6xl mb-5 animate-float">🦋</div>
-          <h2 className="font-display text-3xl text-gray-900 mb-2">Check Your Email</h2>
+          <h2 className="font-bold text-3xl text-gray-900 mb-2">Check Your Email</h2>
           <p className="text-gray-500 text-sm leading-relaxed mb-6">
             We've sent a confirmation link to <strong>{email}</strong>.
             Click it to activate your account and start your healing journey.
@@ -78,11 +78,10 @@ export default function SignupPage() {
       >
         {/* Logo */}
         <div className="text-center mb-6">
-          <Link href="/" className="inline-flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center text-xl shadow-pink">🦋</div>
-            <span className="font-display text-2xl text-pink-500">Crush Cancer &amp; LIVE</span>
+          <Link href="/" className="inline-flex flex-col items-center gap-2 mb-4">
+            <img src="/logo.png" alt="Crush Cancer & LIVE Logo" className="w-48 h-auto mx-auto" />
           </Link>
-          <h1 className="font-display text-3xl text-gray-900 mb-1">
+          <h1 className="font-bold text-3xl text-gray-900 mb-1">
             Start Your <span className="text-teal-500">Journey</span>
           </h1>
           <p className="text-sm text-gray-500 font-light">Create your free account — no card required</p>

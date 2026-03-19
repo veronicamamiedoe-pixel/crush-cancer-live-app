@@ -1,26 +1,8 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/reminders",
-      "schedule": "*/15 * * * *"
-    },
-    {
-      "path": "/api/cron/audio-schedules",
-      "schedule": "0 * * * *"
-    }
-  ],
   "functions": {
-    "src/app/api/ai/**": {
-      "maxDuration": 60
-    },
-    "src/app/api/prepare-appointment/**": {
-      "maxDuration": 60
-    },
-    "src/app/api/side-effects/**": {
-      "maxDuration": 60
-    },
-    "src/app/api/share-health/**": {
-      "maxDuration": 30
-    }
+    "src/app/api/ai/**": { "maxDuration": 60 },
+    "src/app/api/prepare-appointment/**": { "maxDuration": 60 },
+    "src/app/api/side-effects/**": { "maxDuration": 60 },
+    "src/app/api/share-health/**": { "maxDuration": 30 }
   }
 }

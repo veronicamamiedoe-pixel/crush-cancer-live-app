@@ -26,6 +26,7 @@ export default function LoginPage() {
       return
     }
     toast.success('Welcome back! 💛')
+    router.refresh()
     router.push('/dashboard')
   }
 
@@ -38,7 +39,7 @@ export default function LoginPage() {
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <h1 className="font-display text-4xl text-gray-900 mb-1">
+          <h1 className="font-bold text-4xl text-gray-900 mb-1">
             Welcome <span className="text-pink-500">Back</span>
           </h1>
           <p className="text-gray-500 text-sm font-light">
@@ -147,31 +148,31 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
 
         <div className="relative text-center text-white max-w-sm">
           {/* Logo */}
-          <div className="w-20 h-20 bg-white/15 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-6 border border-white/20 animate-float shadow-2xl">
-            <span className="text-4xl">🦋</span>
-          </div>
+          <img
+            src="/logo.png"
+            alt="Crush Cancer & LIVE Logo"
+            className="w-64 h-auto mx-auto mb-6"
+          />
 
-          <p className="text-xs font-bold uppercase tracking-widest text-gold-300 mb-2">
-            Empower · Heal · Thrive
-          </p>
-          <h1 className="font-display text-5xl text-white mb-2 leading-tight">
-            Crush Cancer
-            <br />
-            <span className="text-teal-300">&amp; LIVE</span>
+          <h1 className="font-bold text-4xl text-white mb-2 leading-tight">
+            Crush Cancer &amp; LIVE
           </h1>
-          <p className="text-white/70 text-sm font-light leading-relaxed mt-4">
-            Your professional companion for the cancer journey — 
-            tracking treatment, managing symptoms, staying spiritually 
+          <p className="font-semibold text-xl text-white/90 mb-4">
+            Empower. Heal. Thrive.
+          </p>
+          <p className="text-white/70 text-sm font-light leading-relaxed">
+            Your professional companion for the cancer journey —
+            tracking treatment, managing symptoms, staying spiritually
             strong, and coordinating the people who love you.
           </p>
 
           <div className="mt-8 space-y-3">
             {[
-              '✅ Treatment & appointment planner',
-              '✅ Symptom tracking with charts',
-              '✅ AI health assistant',
-              '✅ Care Squad coordination',
-              '✅ Faith, prayer & journal',
+              '✓ Treatment & appointment planner',
+              '✓ Symptom tracking with charts',
+              '✓ AI health assistant',
+              '✓ Care Squad coordination',
+              '✓ Faith, prayer & journal',
             ].map((f, i) => (
               <p key={i} className="text-white/80 text-sm text-left">{f}</p>
             ))}
@@ -184,8 +185,8 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         {/* Mobile logo */}
         <div className="absolute top-6 left-6 lg:hidden">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center text-white text-sm">🦋</div>
-            <span className="font-display text-xl text-pink-500">Crush Cancer &amp; LIVE</span>
+            <img src="/logo.png" alt="Crush Cancer & LIVE Logo" className="h-8 w-auto" />
+            <span className="font-bold text-xl text-pink-500">Crush Cancer &amp; LIVE</span>
           </Link>
         </div>
         {children}
