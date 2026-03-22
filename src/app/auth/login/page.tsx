@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, LogIn } from 'lucide-react'
@@ -12,6 +13,13 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [showPw, setShowPw]     = useState(false)
   const [loading, setLoading]   = useState(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('signup') === 'success') {
+      toast.success('Account created! Please sign in to continue. 💛')
+    }
+  }, [searchParams])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

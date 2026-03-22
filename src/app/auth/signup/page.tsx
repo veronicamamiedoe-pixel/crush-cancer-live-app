@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, UserPlus } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 
 export default function SignupPage() {
@@ -21,26 +20,29 @@ export default function SignupPage() {
     if (password !== confirm) { toast.error('Passwords do not match'); return }
     if (password.length < 8)  { toast.error('Password must be at least 8 characters'); return }
     setLoading(true)
+
     try {
-      const supabase = createClient()
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: fullName, role },
-        },
+      // Call our server-side signup API which bypasses the broken database trigger
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, fullName, role }),
       })
-      if (error) {
-        toast.error(error.message)
+
+      const data = await res.json()
+
+      if (!res.ok || data.error) {
+        toast.error(data.error || 'Failed to create account. Please try again.')
         setLoading(false)
         return
       }
-      if (data?.session) {
+
+      if (data.success) {
         toast.success('Welcome to Crush Cancer & LIVE! 💛')
-        window.location.replace('/dashboard')
-      } else {
-        toast.success('Please check your email to confirm your account, then log in.')
-        setLoading(false)
+        // Small delay to let the toast show, then redirect
+        setTimeout(() => {
+          window.location.replace('/auth/login?signup=success')
+        }, 800)
       }
     } catch {
       toast.error('Something went wrong. Please try again.')
