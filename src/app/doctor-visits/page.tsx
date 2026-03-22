@@ -82,7 +82,7 @@ export default function DoctorVisitsPage() {
 
   const completeAction = async (visitId: string, actionTitle: string) => {
     const supabase = createClient()
-    await supabase.from('visit_action_items')
+    await supabase.from('reminders')
       .update({ completed: true, completed_at: new Date().toISOString() })
       .eq('visit_id', visitId).eq('title', actionTitle)
     fetchVisits()
@@ -97,7 +97,7 @@ export default function DoctorVisitsPage() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Record · Summarise · Prepare</p>
-            <h2 className="font-display text-4xl text-gray-900">
+            <h2 className="font-bold text-4xl text-gray-900">
               Doctor <span className="text-pink-500">Visits</span>
             </h2>
             <p className="sec-intro">

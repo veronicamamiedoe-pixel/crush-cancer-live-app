@@ -126,7 +126,7 @@ export default function AIAssistantPage() {
               <p className="sec-eyebrow">Premium Feature</p>
               <span className="badge-gold">✨ AI Powered</span>
             </div>
-            <h2 className="font-display text-4xl text-gray-900">AI <span className="text-pink-500">Assistant</span></h2>
+            <h2 className="font-bold text-4xl text-gray-900">AI <span className="text-pink-500">Assistant</span></h2>
             <p className="sec-intro">Your personal health companion — always here, always caring.</p>
           </div>
           <button onClick={clearChat} className="btn-outline flex items-center gap-2">

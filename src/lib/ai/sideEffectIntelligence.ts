@@ -27,10 +27,10 @@ export async function analyseSideEffectPatterns(userId: string) {
     { data: treatments },
     { data: medications },
   ] = await Promise.all([
-    supabase.from('symptom_logs').select('*')
+    supabase.from('symptoms').select('*')
       .eq('user_id', userId).gte('logged_at', sixtyDaysAgo)
       .order('logged_at', { ascending: true }),
-    supabase.from('treatment_sessions').select('*')
+    supabase.from('treatment_plans').select('*')
       .eq('user_id', userId).gte('date', sixtyDaysAgo.split('T')[0])
       .order('date', { ascending: true }),
     supabase.from('medications').select('*')
@@ -52,7 +52,7 @@ export async function analyseSideEffectPatterns(userId: string) {
   // Save patterns to DB
   if (patterns.length > 0) {
     // Clear old undismissed patterns
-    await supabase.from('symptom_patterns')
+    await supabase.from('ai_insights')
       .delete()
       .eq('user_id', userId)
       .eq('dismissed', false)
@@ -70,7 +70,7 @@ export async function analyseSideEffectPatterns(userId: string) {
       raw_analysis:   p,
     }))
 
-    await supabase.from('symptom_patterns').insert(rows)
+    await supabase.from('ai_insights').insert(rows)
   }
 
   return patterns
@@ -171,7 +171,7 @@ export async function getPatternChartData(userId: string, symptomKey: string, da
   const from = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString()
 
   const { data } = await supabase
-    .from('symptom_logs')
+    .from('symptoms')
     .select(`logged_at, ${symptomKey}`)
     .eq('user_id', userId)
     .gte('logged_at', from)
@@ -246,12 +246,12 @@ export async function generateAppointmentBriefing(userId: string, appointmentId?
   ] = await Promise.all([
     supabase.from('doctor_visits').select('*').eq('user_id', userId)
       .order('visit_date', { ascending: false }).limit(1).single(),
-    supabase.from('symptom_logs').select('*').eq('user_id', userId)
+    supabase.from('symptoms').select('*').eq('user_id', userId)
       .gte('logged_at', thirtyDays).order('logged_at', { ascending: false }),
     supabase.from('medications').select('*').eq('user_id', userId).eq('active', true),
-    supabase.from('treatment_sessions').select('*').eq('user_id', userId)
+    supabase.from('treatment_plans').select('*').eq('user_id', userId)
       .order('date', { ascending: false }).limit(3),
-    supabase.from('symptom_patterns').select('*').eq('user_id', userId).eq('dismissed', false),
+    supabase.from('ai_insights').select('*').eq('user_id', userId).eq('dismissed', false),
   ])
 
   const avgSymptoms = calcAverageSymptoms(recentSymptoms || [])

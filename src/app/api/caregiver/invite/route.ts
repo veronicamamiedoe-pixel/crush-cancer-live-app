@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   const { token, email, name } = await request.json()
   if (!email || !token) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
 
-  const { data: userData } = await supabase.from('users').select('full_name').eq('id', user.id).single()
+  const { data: userData } = await supabase.from('profiles').select('full_name').eq('id', user.id).single()
   const patientName = userData?.full_name || 'Someone'
   const inviteUrl   = `${process.env.NEXT_PUBLIC_APP_URL}/caregiver/accept/${token}`
 

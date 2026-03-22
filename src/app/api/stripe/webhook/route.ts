@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
           current_period_end:     new Date(subscription.current_period_end * 1000).toISOString(),
         }, { onConflict: 'user_id' })
 
-        await supabase.from('users').update({ plan }).eq('id', userId)
+        await supabase.from('profiles').update({ cancer_type: plan }).eq('id', userId)
 
         // Send welcome notification
         await supabase.from('notifications').insert({
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
             cancel_at_period_end: sub.cancel_at_period_end,
           }).eq('stripe_subscription_id', sub.id)
 
-          await supabase.from('users').update({ plan }).eq('id', existingSub.user_id)
+          await supabase.from('profiles').update({ cancer_type: plan }).eq('id', existingSub.user_id)
         }
         break
       }
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
             plan: 'free', status: 'canceled'
           }).eq('stripe_subscription_id', sub.id)
 
-          await supabase.from('users').update({ plan: 'free' }).eq('id', existingSub.user_id)
+          // plan downgrade handled by subscriptions table update above
         }
         break
       }

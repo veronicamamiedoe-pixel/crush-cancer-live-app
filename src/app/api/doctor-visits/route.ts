@@ -43,9 +43,9 @@ export async function POST(request: NextRequest) {
           ai_questions:    aiResult.questions || [],
         }).eq('id', visit.id)
 
-        // Create action items in visit_action_items table
+        // Create action items in reminders table
         if (aiResult.action_items?.length) {
-          await supabase.from('visit_action_items').insert(
+          await supabase.from('reminders').insert(
             aiResult.action_items.map((item: any) => ({
               visit_id:  visit.id,
               user_id:   user.id,

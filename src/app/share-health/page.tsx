@@ -99,7 +99,7 @@ export default function ShareHealthPage() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Share Your Health Data Securely</p>
-            <h2 className="font-display text-4xl text-gray-900">Share <span className="text-teal-500">Health Summary</span></h2>
+            <h2 className="font-bold text-4xl text-gray-900">Share <span className="text-teal-500">Health Summary</span></h2>
             <p className="sec-intro">
               Generate secure, view-only reports to share with your doctors, specialists, or family.
               You control exactly what is included. Links expire automatically.

@@ -36,7 +36,7 @@ export default function SideEffectsPage() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const { data } = await supabase.from('symptom_patterns')
+    const { data } = await supabase.from('ai_insights')
       .select('*').eq('user_id', user.id).eq('dismissed', false)
       .order('last_updated', { ascending: false })
     setPatterns(data || [])
@@ -48,7 +48,7 @@ export default function SideEffectsPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
     const from = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-    const { data } = await supabase.from('symptom_logs').select('*')
+    const { data } = await supabase.from('symptoms').select('*')
       .eq('user_id', user.id).gte('logged_at', from).order('logged_at', { ascending: true })
 
     // Build chart data
@@ -100,14 +100,14 @@ export default function SideEffectsPage() {
 
   const dismissPattern = async (id: string) => {
     const supabase = createClient()
-    await supabase.from('symptom_patterns').update({ dismissed: true }).eq('id', id)
+    await supabase.from('ai_insights').update({ dismissed: true }).eq('id', id)
     setPatterns(p => p.filter(x => x.id !== id))
     toast('Pattern dismissed')
   }
 
   const flagForDoctor = async (id: string) => {
     const supabase = createClient()
-    await supabase.from('symptom_patterns').update({ flagged_for_doctor: true }).eq('id', id)
+    await supabase.from('ai_insights').update({ flagged_for_doctor: true }).eq('id', id)
     setPatterns(p => p.map(x => x.id === id ? { ...x, flagged_for_doctor: true } : x))
     toast.success('🚩 Flagged — this will appear in your next appointment briefing')
   }
@@ -123,7 +123,7 @@ export default function SideEffectsPage() {
               <p className="sec-eyebrow">Premium Feature</p>
               <span className="badge-pink text-xs flex items-center gap-1"><Brain className="w-3 h-3" /> AI-Powered</span>
             </div>
-            <h2 className="font-display text-4xl text-gray-900">Side-Effect <span className="text-pink-500">Intelligence</span></h2>
+            <h2 className="font-bold text-4xl text-gray-900">Side-Effect <span className="text-pink-500">Intelligence</span></h2>
             <p className="sec-intro">
               AI analyses your symptom history to identify patterns — helping you and your doctor
               understand your treatment journey better.

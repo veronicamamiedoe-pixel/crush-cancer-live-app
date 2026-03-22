@@ -118,7 +118,7 @@ export default function RemindersPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <p className="sec-eyebrow">Your Daily Command Centre</p>
-            <h2 className="font-display text-4xl text-gray-900">
+            <h2 className="font-bold text-4xl text-gray-900">
               Reminders <span className="text-pink-500">&amp; Tasks</span>
             </h2>
             <p className="sec-intro">Everything you need to do — all in one calm, organised place.</p>

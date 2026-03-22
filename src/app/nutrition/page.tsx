@@ -87,7 +87,7 @@ export default function NutritionPage() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Nourish · Hydrate · Rest</p>
-            <h2 className="font-display text-4xl text-gray-900">Nutrition <span className="text-green-600">&amp; Wellness</span></h2>
+            <h2 className="font-bold text-4xl text-gray-900">Nutrition <span className="text-green-600">&amp; Wellness</span></h2>
             <p className="sec-intro">Track meals, hydration, sleep, and movement to support your healing.</p>
           </div>
           <div className="flex gap-2">

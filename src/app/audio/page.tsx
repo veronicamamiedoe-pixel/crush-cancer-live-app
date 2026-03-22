@@ -92,7 +92,7 @@ export default function AudioPage() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const { data } = await supabase.from('audio_schedules')
+    const { data } = await supabase.from('reminders')
       .select('*, audio:audio_library(*)').eq('user_id', user.id).eq('is_active', true)
     setSchedules(data || [])
   }
@@ -154,7 +154,7 @@ export default function AudioPage() {
         {/* Header */}
         <div>
           <p className="sec-eyebrow">Premium Feature — Guided Hope &amp; Healing</p>
-          <h2 className="font-display text-4xl text-gray-900">
+          <h2 className="font-bold text-4xl text-gray-900">
             Audio <span className="text-teal-500">Library</span>
           </h2>
           <p className="sec-intro">

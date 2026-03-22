@@ -44,7 +44,7 @@ export default function SymptomsPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
     const from = subDays(new Date(), range).toISOString()
-    const { data } = await supabase.from('symptom_logs')
+    const { data } = await supabase.from('symptoms')
       .select('*').eq('user_id', user.id).gte('logged_at', from)
       .order('logged_at', { ascending: true })
     setLogs(data || [])
@@ -55,7 +55,7 @@ export default function SymptomsPage() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const { error } = await supabase.from('symptom_logs')
+    const { error } = await supabase.from('symptoms')
       .insert({ ...form, user_id: user.id, logged_at: new Date().toISOString() })
     if (error) { toast.error('Could not save. Please try again.'); setSaving(false); return }
     toast.success('✅ Symptoms logged!')
@@ -89,7 +89,7 @@ export default function SymptomsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Track · Understand · Report</p>
-            <h2 className="font-display text-4xl text-gray-900">Symptom <span className="text-pink-500">Tracker</span></h2>
+            <h2 className="font-bold text-4xl text-gray-900">Symptom <span className="text-pink-500">Tracker</span></h2>
             <p className="sec-intro">Log how you feel each day. Spot patterns and share reports with your doctor.</p>
           </div>
           <button onClick={() => setShowForm(!showForm)} className="btn-primary">

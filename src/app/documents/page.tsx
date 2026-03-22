@@ -147,7 +147,7 @@ export default function DocumentsPage() {
               <p className="sec-eyebrow">Encrypted & Secure</p>
               <span className="badge-teal flex items-center gap-1 text-xs"><Lock className="w-3 h-3" /> Private Vault</span>
             </div>
-            <h2 className="font-display text-4xl text-gray-900">
+            <h2 className="font-bold text-4xl text-gray-900">
               Document <span className="text-teal-500">Vault</span>
             </h2>
             <p className="sec-intro">

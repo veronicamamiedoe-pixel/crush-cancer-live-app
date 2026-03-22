@@ -39,7 +39,7 @@ export default function TreatmentPage() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const { data } = await supabase.from('treatment_sessions')
+    const { data } = await supabase.from('treatment_plans')
       .select('*').eq('user_id', user.id).order('date', { ascending: false })
     setSessions(data || [])
   }
@@ -57,7 +57,7 @@ export default function TreatmentPage() {
       side_effects: form.side_effects ? form.side_effects.split(',').map(s => s.trim()) : [],
     }
 
-    const { error } = await supabase.from('treatment_sessions').insert(payload)
+    const { error } = await supabase.from('treatment_plans').insert(payload)
     if (error) { toast.error('Could not save session'); setSaving(false); return }
     toast.success('✅ Treatment session saved!')
     setForm(defaultSession)
@@ -68,7 +68,7 @@ export default function TreatmentPage() {
 
   const toggleComplete = async (session: TreatmentSession) => {
     const supabase = createClient()
-    await supabase.from('treatment_sessions')
+    await supabase.from('treatment_plans')
       .update({ completed: !session.completed }).eq('id', session.id)
     fetchSessions()
   }
@@ -85,7 +85,7 @@ export default function TreatmentPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Your Roadmap to Healing</p>
-            <h2 className="font-display text-4xl text-gray-900">Treatment <span className="text-teal-500">Planner</span></h2>
+            <h2 className="font-bold text-4xl text-gray-900">Treatment <span className="text-teal-500">Planner</span></h2>
             <p className="sec-intro">Track every session, record how you felt, and see your progress.</p>
           </div>
           <button onClick={() => setShowForm(!showForm)} className="btn-teal">

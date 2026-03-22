@@ -104,7 +104,7 @@ export default function CareSquadPage() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Your Support Circle</p>
-            <h2 className="font-display text-4xl text-gray-900">
+            <h2 className="font-bold text-4xl text-gray-900">
               Care <span className="text-pink-500">Squad</span>
             </h2>
             <p className="sec-intro">

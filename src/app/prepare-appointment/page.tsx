@@ -37,7 +37,7 @@ export default function PrepareAppointmentPage() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const { data } = await supabase.from('appointments').select('*')
+    const { data } = await supabase.from('doctor_visits').select('*')
       .eq('user_id', user.id).gte('date', new Date().toISOString().split('T')[0])
       .order('date', { ascending: true }).limit(1).single()
     setNextAppt(data)
@@ -90,7 +90,7 @@ export default function PrepareAppointmentPage() {
             <p className="sec-eyebrow">Premium Feature</p>
             <span className="badge-pink flex items-center gap-1 text-xs"><Brain className="w-3 h-3" /> AI-Powered</span>
           </div>
-          <h2 className="font-display text-4xl text-gray-900">Prepare for <span className="text-teal-500">Your Appointment</span></h2>
+          <h2 className="font-bold text-4xl text-gray-900">Prepare for <span className="text-teal-500">Your Appointment</span></h2>
           <p className="sec-intro">
             AI generates a personalised briefing using your symptom history, medications,
             treatment records, and doctor visit notes — so you walk into every appointment fully prepared.

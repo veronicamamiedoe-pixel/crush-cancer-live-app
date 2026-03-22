@@ -178,7 +178,7 @@ export default function MedicationsPage() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <p className="sec-eyebrow">Track · Log · Remember</p>
-            <h2 className="font-display text-4xl text-gray-900">
+            <h2 className="font-bold text-4xl text-gray-900">
               Medications <span className="text-gold-500">Tracker</span>
             </h2>
             <p className="sec-intro">

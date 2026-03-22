@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap');
+/* Google Fonts — Nunito only (no cursive fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300&display=swap');
 
 /* ============================
    CCL DESIGN TOKENS
@@ -37,7 +37,8 @@ body {
 /* ============================
    TYPOGRAPHY
    ============================ */
-.font-display { font-family: 'Dancing Script', cursive; }
+/* font-display is now Nunito 800 — NO cursive fonts anywhere */
+.font-display { font-family: 'Nunito', sans-serif; font-weight: 800; }
 .font-body    { font-family: 'Nunito', sans-serif; }
 
 /* Accessibility focus */
@@ -127,10 +128,10 @@ body {
     @apply text-xs font-bold uppercase tracking-widest text-gold-500 mb-1.5;
   }
   .sec-title {
-    @apply font-display text-4xl text-gray-900 leading-tight;
+    @apply font-bold text-4xl text-gray-900 leading-tight;
   }
   .sec-intro {
-    @apply text-sm font-light text-gray-500 leading-relaxed mt-2 max-w-lg;
+    @apply text-sm font-light text-gray-500 leading-relaxed mt-2 max-lg;
   }
 
   /* Stat cards */

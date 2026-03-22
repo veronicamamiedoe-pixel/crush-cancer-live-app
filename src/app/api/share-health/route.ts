@@ -12,14 +12,14 @@ export async function POST(request: NextRequest) {
   const reportData: Record<string, unknown> = {}
 
   if (included_sections.symptoms) {
-    const { data } = await supabase.from('symptom_logs').select('*').eq('user_id', user.id)
+    const { data } = await supabase.from('symptoms').select('*').eq('user_id', user.id)
       .gte('logged_at', date_range_from || new Date(Date.now() - 30*24*60*60*1000).toISOString())
       .order('logged_at', { ascending: false })
     reportData.symptoms = data
   }
   if (included_sections.appointments) {
-    const { data } = await supabase.from('appointments').select('*').eq('user_id', user.id)
-      .order('date', { ascending: false }).limit(10)
+    const { data } = await supabase.from('doctor_visits').select('*').eq('user_id', user.id)
+      .order('visit_date', { ascending: false }).limit(10)
     reportData.appointments = data
   }
   if (included_sections.medications) {
@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
     reportData.medications = data
   }
   if (included_sections.treatments) {
-    const { data } = await supabase.from('treatment_sessions').select('*').eq('user_id', user.id)
-      .order('date', { ascending: false }).limit(20)
+    const { data } = await supabase.from('treatment_plans').select('*').eq('user_id', user.id)
+      .order('created_at', { ascending: false }).limit(20)
     reportData.treatments = data
   }
 

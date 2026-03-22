@@ -55,7 +55,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        display: ['Dancing Script', 'cursive'],
+        // No cursive fonts — display uses Nunito 800 (extrabold)
+        display: ['Nunito', 'sans-serif'],
         body: ['Nunito', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },

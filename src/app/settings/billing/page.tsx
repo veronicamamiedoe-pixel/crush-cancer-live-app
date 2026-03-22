@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Check, Sparkles, Shield, Zap } from 'lucide-react'
 import { AppShell } from '@/components/shared/AppShell'
 import { createClient } from '@/lib/supabase/client'
-import { PLAN_FEATURES, PLAN_PRICES, STRIPE_PLANS } from '@/types'
+import { PLAN_FEATURES, PLAN_PRICES } from '@/types'
 import { loadStripe } from '@stripe/stripe-js'
 import toast from 'react-hot-toast'
 
@@ -54,10 +54,10 @@ export default function BillingPage() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-      const { data } = await supabase.from('subscriptions').select('plan,current_period_end').eq('user_id', user.id).single()
+      const { data } = await supabase.from('subscriptions').select('plan,updated_at').eq('user_id', user.id).single()
       if (data) {
         setCurrentPlan(data.plan)
-        setSubscriptionEnd(data.current_period_end)
+        setSubscriptionEnd(data.updated_at)
       }
     }
     fetchPlan()
@@ -105,7 +105,7 @@ export default function BillingPage() {
         {/* Header */}
         <div className="text-center">
           <p className="sec-eyebrow">Choose Your Plan</p>
-          <h2 className="font-display text-4xl text-gray-900">Simple, <span className="text-pink-500">Caring</span> Pricing</h2>
+          <h2 className="font-bold text-4xl text-gray-900">Simple, <span className="text-pink-500">Caring</span> Pricing</h2>
           <p className="sec-intro mx-auto">
             Start free. Upgrade when you're ready. Every plan includes a 14-day free trial on paid tiers.
             Cancel anytime — no questions asked.

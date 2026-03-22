@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import type { User } from '@/types'
 
 const GREETINGS = [
   "You showed up today — that is already a victory. 💛",
@@ -23,7 +22,16 @@ function getDayMessage(): string {
 }
 
 interface DashboardHeroProps {
-  user?: User | null
+  user?: {
+    full_name?: string
+    cancer_type?: string
+    diagnosis_date?: string
+    plan?: string
+    oncologist?: string
+    hospital?: string
+    // legacy fields
+    diagnosis?: string
+  } | null
 }
 
 export function DashboardHero({ user }: DashboardHeroProps) {
@@ -31,6 +39,7 @@ export function DashboardHero({ user }: DashboardHeroProps) {
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   })
+  const diagnosis = user?.cancer_type || user?.diagnosis
 
   return (
     <motion.div
@@ -53,18 +62,18 @@ export function DashboardHero({ user }: DashboardHeroProps) {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-gold-300 mb-1">{today}</p>
-            <h1 className="font-display text-3xl lg:text-4xl text-white mb-1">
+            <h1 className="font-bold text-3xl lg:text-4xl text-white mb-1">
               {getGreeting()}, {firstName}
             </h1>
             <p className="text-white/75 text-sm font-light">{getDayMessage()}</p>
           </div>
 
           {/* Treatment badge */}
-          {user?.diagnosis && (
+          {diagnosis && (
             <div className="bg-white/15 backdrop-blur-sm rounded-2xl px-5 py-3 border border-white/20">
               <p className="text-xs font-bold uppercase tracking-wider text-white/70 mb-0.5">My Journey</p>
-              <p className="text-white font-bold text-sm">{user.diagnosis}</p>
-              {user.oncologist && (
+              <p className="text-white font-bold text-sm">{diagnosis}</p>
+              {user?.oncologist && (
                 <p className="text-white/60 text-xs mt-0.5">Dr. {user.oncologist}</p>
               )}
             </div>

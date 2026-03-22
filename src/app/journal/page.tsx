@@ -94,7 +94,7 @@ export default function JournalPage() {
         {/* Header */}
         <div>
           <p className="sec-eyebrow">Reflect · Release · Rejoice</p>
-          <h2 className="font-display text-4xl text-gray-900">My <span className="text-pink-500">Journal</span></h2>
+          <h2 className="font-bold text-4xl text-gray-900">My <span className="text-pink-500">Journal</span></h2>
           <p className="sec-intro">Your sacred space. No rules, no judgment. Write freely.</p>
         </div>
 
@@ -105,7 +105,7 @@ export default function JournalPage() {
           </div>
           <div className="relative">
             <p className="text-xs font-bold uppercase tracking-widest text-gold-300 mb-2">Today's Declaration</p>
-            <p className="font-display text-2xl text-white italic mb-2">"{decl.text}"</p>
+            <p className="font-bold text-2xl text-white italic mb-2">"{decl.text}"</p>
             <p className="text-xs text-white/60 font-bold tracking-wide">— {decl.ref}</p>
             <button
               onClick={() => setDeclIdx(i => (i + 1) % HEALING_DECLARATIONS.length)}

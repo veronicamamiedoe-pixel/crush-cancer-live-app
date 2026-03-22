@@ -201,7 +201,7 @@ export default function LibraryPage() {
               <span className="badge-pink capitalize">{selectedArticle.category.replace('_', ' ')}</span>
               <span className="text-xs text-gray-400">· {selectedArticle.readTime} read</span>
             </div>
-            <h1 className="font-display text-3xl text-gray-900 mb-4">{selectedArticle.title}</h1>
+            <h1 className="font-bold text-3xl text-gray-900 mb-4">{selectedArticle.title}</h1>
             <p className="text-gray-500 font-light leading-relaxed mb-6 border-b border-gray-100 pb-5">{selectedArticle.summary}</p>
             <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed">
               {selectedArticle.content.split('\n\n').map((para, i) => {
@@ -247,7 +247,7 @@ export default function LibraryPage() {
         {/* Header */}
         <div>
           <p className="sec-eyebrow">Learn · Understand · Empower</p>
-          <h2 className="font-display text-4xl text-gray-900">
+          <h2 className="font-bold text-4xl text-gray-900">
             Knowledge <span className="text-teal-500">Library</span>
           </h2>
           <p className="sec-intro">

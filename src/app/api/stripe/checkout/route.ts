@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     let customerId = subscription?.stripe_customer_id
 
     if (!customerId || customerId === '') {
-      const { data: userData } = await supabase.from('users').select('full_name,email').eq('id', user.id).single()
+      const { data: userData } = await supabase.from('profiles').select('full_name').eq('id', user.id).single()
       customerId = await createStripeCustomer(userData?.email || user.email!, userData?.full_name || '')
 
       await supabase.from('subscriptions').upsert({

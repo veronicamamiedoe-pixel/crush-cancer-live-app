@@ -41,7 +41,7 @@ export function AppShell({ children, userName }: AppShellProps) {
   const handleSignOut = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/auth/login')
+    window.location.replace('/auth/login')
   }
 
   return (
@@ -148,7 +148,7 @@ export function AppShell({ children, userName }: AppShellProps) {
         {/* Footer */}
         <footer className="border-t border-pink-100 py-4 px-6 text-center">
           <p className="text-xs text-gray-400">
-            <span className="font-display text-lg text-pink-500 mr-2">Crush Cancer &amp; LIVE</span>
+            <span className="font-bold text-base text-pink-500 mr-2">Crush Cancer &amp; LIVE</span>
             Empower · Heal · Thrive 🦋
           </p>
         </footer>
@@ -160,12 +160,23 @@ export function AppShell({ children, userName }: AppShellProps) {
 function BrandMark() {
   return (
     <Link href="/dashboard" className="flex items-center gap-3 group">
-      <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-pink-500 to-teal-500 flex items-center justify-center shadow-pink group-hover:scale-105 transition-transform">
+      <img
+        src="/logo.png"
+        alt="Crush Cancer & LIVE"
+        className="h-9 w-auto group-hover:scale-105 transition-transform"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement
+          target.style.display = 'none'
+          const fallback = target.nextElementSibling as HTMLElement
+          if (fallback) fallback.style.display = 'flex'
+        }}
+      />
+      <div className="hidden w-9 h-9 rounded-2xl bg-gradient-to-br from-pink-500 to-teal-500 items-center justify-center shadow-pink group-hover:scale-105 transition-transform">
         <span className="text-white text-lg">🦋</span>
       </div>
       <div>
-        <div className="font-display text-xl text-pink-500 leading-none">Crush Cancer</div>
-        <div className="text-xs font-bold text-teal-600 tracking-wide">& LIVE</div>
+        <div className="font-bold text-lg text-pink-500 leading-none">Crush Cancer</div>
+        <div className="text-xs font-bold text-teal-600 tracking-wide">&amp; LIVE</div>
       </div>
     </Link>
   )

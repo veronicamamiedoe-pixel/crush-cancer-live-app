@@ -66,13 +66,13 @@ const [
     .eq('user_id', user.id).eq('is_active', true).eq('completed', false)
     .lt('due_at', new Date().toISOString()).limit(5),
 
-  supabase.from('audio_schedules').select('*, audio:audio_library(*)')
-    .eq('user_id', user.id).eq('is_active', true),
+  supabase.from('audio_library').select('*')
+    .eq('is_active', true).limit(5),
 
   supabase.from('doctor_visits').select('*')
     .eq('user_id', user.id).order('visit_date', { ascending: false }).limit(3),
 
-  supabase.from('visit_action_items').select('*')
-    .eq('user_id', user.id).eq('completed', false).limit(5),
+  supabase.from('reminders').select('*')
+    .eq('user_id', user.id).eq('is_active', true).limit(5),
 ])
 `

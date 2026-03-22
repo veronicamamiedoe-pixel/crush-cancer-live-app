@@ -1,19 +1,12 @@
 import type { Metadata, Viewport } from 'next'
-import { Dancing_Script, Nunito } from 'next/font/google'
+import { Nunito } from 'next/font/google'
 import { ThemeProvider } from '@/components/shared/ThemeProvider'
 import { Toaster } from 'react-hot-toast'
 import '@/styles/globals.css'
 
-const dancingScript = Dancing_Script({
-  subsets: ['latin'],
-  weight: ['600', '700'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
 const nunito = Nunito({
   subsets: ['latin'],
-  weight: ['300', '400', '600', '700'],
+  weight: ['300', '400', '600', '700', '800'],
   variable: '--font-body',
   display: 'swap',
 })
@@ -30,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://crushcancerandlive.app',
+    url: 'https://crush-cancer-and-live.vercel.app',
     siteName: 'Crush Cancer & LIVE',
     title: 'Crush Cancer & LIVE — Empower. Heal. Thrive.',
     description: 'Your professional cancer care companion. Treatment tracking, symptom monitoring, spiritual support, and care coordination.',
@@ -54,7 +47,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${dancingScript.variable} ${nunito.variable}`}>
+    <html lang="en" suppressHydrationWarning className={nunito.variable}>
       <body className="font-body bg-healing-bg text-gray-900 antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           {children}
